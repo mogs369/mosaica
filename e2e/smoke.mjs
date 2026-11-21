@@ -1,6 +1,6 @@
 // End-to-end check in Chromium against the production build.
 // Usage: node e2e/smoke.mjs <testdata dir> <screenshot dir>
-// (testdata: a "NZ 2020" folder of photos plus main_beach.jpg / main_beach.heic)
+// (testdata: a "Trip photos" folder of photos plus main_beach.jpg / main_beach.heic)
 import { execSync, spawn } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -12,7 +12,7 @@ const pw = await import('playwright').catch(() =>
 const chromium = pw.chromium ?? pw.default.chromium;
 
 const [data, shots] = process.argv.slice(2);
-const folder = path.join(data, 'NZ 2020');
+const folder = path.join(data, 'Trip photos');
 fs.mkdirSync(shots, { recursive: true });
 
 const server = spawn(process.execPath, ['node_modules/vite/bin/vite.js', 'preview', '--port', '4319', '--strictPort'], { stdio: 'pipe' });

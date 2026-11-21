@@ -1,7 +1,7 @@
 # Mosaica
 
-Photo mosaics made from your own photo folders, for example a portrait from
-New Zealand 2020 built only out of the photos from that trip.
+Photo mosaics made from your own photo folders, for example a picture from a
+trip built only out of the photos from that trip.
 
 - Runs in Chrome (or Edge) on your own computer. **Your photos are never uploaded.**
 - After the first visit it **works fully offline**, so no connection is needed to make mosaics.
@@ -10,10 +10,12 @@ New Zealand 2020 built only out of the photos from that trip.
 
 ## Using it
 
+A friendly step-by-step guide for the person using the app is in [GUIDE.md](GUIDE.md).
+
 1. **Open the app once while online** (at the library is fine) and click **Install app**
    in the top right, or use the install icon in Chrome's address bar. From then on it opens
    like a normal program and works with no internet.
-2. **Add folder…**: pick a folder of photos, e.g. `New Zealand 2020`. Subfolders are included.
+2. **Add folder…**: pick a folder of photos, e.g. `Summer trip`. Subfolders are included.
    Mosaica makes a small thumbnail of every photo and remembers the folder, so this only
    happens once. **Update** picks up photos added later; **Remove** only forgets
    Mosaica's thumbnails and never touches your photos.

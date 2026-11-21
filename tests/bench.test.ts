@@ -20,7 +20,7 @@ function make(n: number, seed: number): Float32Array {
 }
 
 const cases: [string, number, number, number, boolean][] = [
-  ['NZ-like folder: 32x42 cells, 1,300 photos, show every', 32, 42, 1300, true],
+  ['One-trip folder: 32x42 cells, 1,300 photos, show every', 32, 42, 1300, true],
   ['Big folder: 32x42 cells, 20,000 photos', 32, 42, 20000, false],
   ['Whole library: 32x42 cells, 200,000 photos', 32, 42, 200000, false],
   ['Dense: 100x129 cells, 5,000 photos, show every', 100, 129, 5000, true],
