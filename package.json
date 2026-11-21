@@ -1,0 +1,25 @@
+{
+  "name": "mosaica",
+  "version": "1.0.0",
+  "description": "Offline photo mosaic maker",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.8",
+    "vite-plugin-pwa": "^2.0.0",
+    "vitest": "^5.1.1"
+  },
+  "dependencies": {
+    "libheif-js": "^1.23.5"
+  },
+  "private": true,
+  "type": "module"
+}

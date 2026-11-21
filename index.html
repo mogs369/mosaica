@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mosaica</title>
+  <meta name="description" content="Photo mosaics from your own photo folders. Runs on your computer, works offline." />
+  <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+  <meta name="theme-color" content="#1f1b16" />
+</head>
+<body>
+  <header class="top">
+    <div class="brand"><img src="./icon.svg" alt="" width="28" height="28" /><span>Mosaica</span></div>
+    <div class="top-right">
+      <span id="offline-badge" class="badge" hidden>Ready to work offline</span>
+      <button id="install" class="ghost" hidden>Install app</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="panel">
+      <section>
+        <h2><span class="num">1</span>Tile photos</h2>
+        <p class="hint">Folders whose photos become the tiles. Photos never leave this computer.</p>
+        <ul id="folders" class="folders"></ul>
+        <button id="add-folder" class="primary">Add folder…</button>
+        <input type="file" id="folder-input" webkitdirectory multiple hidden />
+        <div id="scan" class="scan" hidden>
+          <div class="scan-text"><span id="scan-label"></span><button id="scan-cancel" class="link">Stop</button></div>
+          <progress id="scan-bar" max="1" value="0"></progress>
+          <details id="scan-errors" hidden><summary></summary><ul></ul></details>
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="num">2</span>Main photo</h2>
+        <div class="main-pick">
+          <button id="pick-main">Choose photo…</button>
+          <input type="file" id="main-input" accept="image/*,.heic,.heif" hidden />
+          <div id="main-info" class="main-info" hidden><img id="main-thumb" alt="" /><span id="main-name"></span></div>
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="num">3</span>Size</h2>
+        <label class="field"><span>Output</span><select id="preset"></select></label>
+        <label class="field"><span>Tiles across <output id="across-out"></output></span>
+          <input type="range" id="across" min="8" max="120" step="1" value="32" /></label>
+        <p id="size-readout" class="readout">Choose a main photo to see the grid.</p>
+      </section>
+
+      <section>
+        <h2><span class="num">4</span>Look</h2>
+        <label class="field"><span>Photo choice</span>
+          <select id="variety">
+            <option value="every">Show every photo (spread evenly)</option>
+            <option value="likeness">Best likeness (repeats allowed)</option>
+            <option value="norepeat">Never repeat a photo</option>
+          </select></label>
+        <label class="field"><span>Keep repeats apart <output id="spacing-out"></output></span>
+          <input type="range" id="spacing" min="0" max="4" step="1" value="2" /></label>
+        <label class="field"><span>Main photo blended in <output id="blend-out"></output></span>
+          <input type="range" id="blend" min="0" max="60" step="1" value="10" /></label>
+        <label class="field"><span>Tint tiles toward main photo <output id="tint-out"></output></span>
+          <input type="range" id="tint" min="0" max="100" step="5" value="0" /></label>
+      </section>
+
+      <section>
+        <h2><span class="num">5</span>Save</h2>
+        <label class="field"><span>File type</span>
+          <select id="format">
+            <option value="jpeg">JPEG (smaller, for printing and sharing)</option>
+            <option value="png">PNG (lossless, large file)</option>
+          </select></label>
+        <button id="export" class="primary" disabled>Save full-size file</button>
+      </section>
+    </aside>
+
+    <section class="stage">
+      <div class="stage-bar">
+        <p id="status" class="status" role="status"></p>
+        <button id="zoom" class="ghost" hidden>Zoom in</button>
+      </div>
+      <div id="viewport" class="viewport">
+        <div id="empty" class="empty">
+          <p class="empty-title">Make a mosaic from your own photos</p>
+          <ol>
+            <li>Add a folder of photos to use as tiles, such as <em>New Zealand 2020</em>.</li>
+            <li>Choose the main photo.</li>
+            <li>Adjust the size and look, then save the full-size file.</li>
+          </ol>
+        </div>
+        <canvas id="preview" hidden></canvas>
+      </div>
+    </section>
+  </main>
+  <script type="module" src="./src/main.ts"></script>
+</body>
+</html>
