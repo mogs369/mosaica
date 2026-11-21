@@ -1,5 +1,6 @@
 // End-to-end check in Chromium against the production build.
 // Usage: node e2e/smoke.mjs <testdata dir> <screenshot dir>
+// Set APP_URL to test a deployed site instead of the local build.
 // (testdata: a "Trip photos" folder of photos plus main_beach.jpg / main_beach.heic)
 import { execSync, spawn } from 'node:child_process';
 import fs from 'node:fs';
@@ -15,9 +16,14 @@ const [data, shots] = process.argv.slice(2);
 const folder = path.join(data, 'Trip photos');
 fs.mkdirSync(shots, { recursive: true });
 
-const server = spawn(process.execPath, ['node_modules/vite/bin/vite.js', 'preview', '--port', '4319', '--strictPort'], { stdio: 'pipe' });
-await new Promise((r) => server.stdout.on('data', (d) => /4319/.test(d) && r()));
-const URL_ = 'http://localhost:4319/';
+let server = null;
+let URL_ = process.env.APP_URL;
+if (!URL_) {
+  server = spawn(process.execPath, ['node_modules/vite/bin/vite.js', 'preview', '--port', '4319', '--strictPort'], { stdio: 'pipe' });
+  await new Promise((r) => server.stdout.on('data', (d) => /4319/.test(d) && r()));
+  URL_ = 'http://localhost:4319/';
+}
+console.log('testing', URL_);
 
 const browser = await chromium.launch();
 const ctx = await browser.newContext({ viewport: { width: 1400, height: 900 }, acceptDownloads: true });
@@ -31,6 +37,15 @@ const waitStatus = (re, timeout = 120000) =>
 
 await page.goto(URL_);
 await page.waitForFunction(() => navigator.serviceWorker.controller || document.getElementById('offline-badge').hidden === false, null, { timeout: 30000 });
+
+const manifest = await page.evaluate(async () => {
+  const href = document.querySelector('link[rel=manifest]')?.href;
+  if (!href) return null;
+  const m = await (await fetch(href)).json();
+  const icons = await Promise.all(m.icons.map(async (i) => (await fetch(new URL(i.src, href))).status));
+  return { name: m.name, display: m.display, icons };
+});
+console.log('install manifest:', JSON.stringify(manifest), 'service worker:', await page.evaluate(() => !!navigator.serviceWorker.controller || 'registered'));
 
 // 1) Add a folder through the fallback picker (<input webkitdirectory>).
 let t0 = Date.now();
@@ -119,5 +134,5 @@ await page.screenshot({ path: path.join(shots, '3-offline.png') });
 
 console.log('page errors:', errors.length ? errors : 'none');
 await browser.close();
-server.kill();
+server?.kill();
 process.exit(errors.length ? 1 : 0);
